@@ -4,7 +4,8 @@ import { useChat } from "@ai-sdk/react";
 import ChatInput from "./ChatInput";
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, status } =
+    useChat();
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
       {messages.map((message) => (
@@ -22,15 +23,8 @@ export default function Chat() {
         onChange={handleInputChange}
         onSubmit={handleSubmit}
         value={input}
+        status={status}
       />
-      {/* <form onSubmit={handleSubmit}>
-        <input
-          className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
-          value={input}
-          placeholder="Say something..."
-          onChange={handleInputChange}
-        />
-      </form> */}
     </div>
   );
 }

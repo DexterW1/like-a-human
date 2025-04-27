@@ -1,38 +1,94 @@
 "use client";
 
+import { Button } from "../ui/button";
+import { Briefcase, Feather, SendHorizontal, UserRound } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { ChatRequestOptions } from "ai";
+import { useState } from "react";
+import { WRITING_STYLE_ENUM } from "@/types/chat.types";
+import { Tooltip, TooltipTrigger } from "../ui/tooltip";
+import { TooltipContent } from "@radix-ui/react-tooltip";
 
 type ChatInputProps = {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (
+    event?: { preventDefault?: () => void },
+    chatRequestOptions?: ChatRequestOptions
+  ) => void;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  status: string;
 };
 
 export default function ChatInput({
   onSubmit,
   value,
   onChange,
+  status,
 }: ChatInputProps) {
+  const [promptStyle, setPromptStyle] = useState(
+    WRITING_STYLE_ENUM.PERSONALIZED
+  );
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // prevent newline
+      e.preventDefault();
       const form = e.currentTarget.form;
       if (form) {
-        form.requestSubmit(); // programmatically submit the form
+        form.requestSubmit();
       }
     }
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <Textarea
-        className=" w-full p-2 border rounded  resize-none overflow-y-auto max-h-32"
-        value={value}
-        placeholder="Say something..."
-        onChange={onChange}
-        onKeyDown={handleKeyDown}
-        rows={1}
-      />
-    </form>
+    <div className="flex flex-col dark:bg-input/30 rounded-3xl py-3 px-4 border">
+      <form
+        onSubmit={(event) => {
+          onSubmit(event, {
+            body: {
+              promptStyle,
+            },
+          });
+        }}>
+        <Textarea
+          className="w-full p-2 rounded-2xl resize-none overflow-y-auto max-h-52 min-h-12 fs-visible:outline-none focus-visible:ring-0 focus-visible:border-ring-0 border-0 bg-transparent dark:bg-transparent"
+          value={value}
+          placeholder="Say something..."
+          onChange={onChange}
+          onKeyDown={handleKeyDown}
+          rows={1}
+        />
+        <div className="flex flex-row items-center justify-between">
+          <ToggleGroup
+            className="gap-2"
+            type="single"
+            value={promptStyle}
+            onValueChange={(value) => setPromptStyle(value)}>
+            <ToggleGroupItem
+              className="rounded-md border"
+              value={WRITING_STYLE_ENUM.PERSONALIZED}
+              aria-label="Toggle PERSONALIZED">
+              <UserRound size={16} />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              className="rounded-md border"
+              value={WRITING_STYLE_ENUM.WORK}
+              aria-label="Toggle WORK">
+              <Briefcase size={16} />
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              className="rounded-md border"
+              value={WRITING_STYLE_ENUM.PROFESSIONAL}
+              aria-label="Toggle PROFESSIONAL">
+              <Feather size={16} />
+            </ToggleGroupItem>
+          </ToggleGroup>
+
+          <Button type="submit" disabled={!value || status !== "ready"}>
+            <SendHorizontal className="-rotate-90" />
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 }

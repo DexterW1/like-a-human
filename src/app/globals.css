@@ -111,7 +111,12 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
-
+@layer base {
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -122,9 +127,9 @@
 }
 
 .skeleton {
-  * {
+  /* * {
     pointer-events: none !important;
-  }
+  } */
 
   *[class^="text"] {
     color: transparent !important;
@@ -146,4 +151,22 @@
   .skeleton-div {
     @apply bg-foreground/20 animate-pulse;
   }
+}
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #555; /* dark gray */
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+textarea {
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
 }
