@@ -62,14 +62,15 @@ export default function ChatInput({
             className="gap-2"
             type="single"
             value={promptStyle}
-            onValueChange={(value) => setPromptStyle(value)}>
+            onValueChange={(value) => {
+              if (value) setPromptStyle(value);
+            }}>
             <ToggleGroupItem
               className="rounded-md border"
               value={WRITING_STYLE_ENUM.PERSONALIZED}
               aria-label="Toggle PERSONALIZED">
               <UserRound size={16} />
             </ToggleGroupItem>
-
             <ToggleGroupItem
               className="rounded-md border"
               value={WRITING_STYLE_ENUM.WORK}
