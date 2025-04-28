@@ -1,3 +1,4 @@
+import { getSystemPrompt } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
 import { streamText } from "ai";
 
@@ -5,12 +6,17 @@ import { streamText } from "ai";
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
-  console.log("messages", messages);
+  const { messages, promptStyle } = await req.json();
+  console.log("promptStyle", promptStyle);
+  const systemPrompt = {
+    role: "system",
+    content: getSystemPrompt(promptStyle),
+  };
+  messages.unshift(systemPrompt);
+  console.log("messages after unshift", messages);
   const result = streamText({
     model: google("gemini-2.0-flash-lite"),
     messages,
   });
-  console.log("result", result);
   return result.toDataStreamResponse();
 }

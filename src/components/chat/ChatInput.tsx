@@ -6,7 +6,7 @@ import { Textarea } from "../ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { ChatRequestOptions } from "ai";
 import { useState } from "react";
-import { WRITING_STYLE_ENUM } from "@/types/chat.types";
+import { WRITING_STYLE_ENUM, WritingStyleType } from "@/types/chat.types";
 import { Tooltip, TooltipTrigger } from "../ui/tooltip";
 import { TooltipContent } from "@radix-ui/react-tooltip";
 
@@ -18,6 +18,7 @@ type ChatInputProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   status: string;
+  setAiThinking: (value: boolean) => void;
 };
 
 export default function ChatInput({
@@ -25,8 +26,9 @@ export default function ChatInput({
   value,
   onChange,
   status,
+  setAiThinking,
 }: ChatInputProps) {
-  const [promptStyle, setPromptStyle] = useState(
+  const [promptStyle, setPromptStyle] = useState<WritingStyleType>(
     WRITING_STYLE_ENUM.PERSONALIZED
   );
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -36,6 +38,7 @@ export default function ChatInput({
       if (form) {
         form.requestSubmit();
       }
+      setAiThinking(true);
     }
   }
 
@@ -50,7 +53,7 @@ export default function ChatInput({
           });
         }}>
         <Textarea
-          className="w-full p-2 rounded-2xl resize-none overflow-y-auto max-h-52 min-h-12 fs-visible:outline-none focus-visible:ring-0 focus-visible:border-ring-0 border-0 bg-transparent dark:bg-transparent"
+          className="w-full p-2 rounded-2xl resize-none overflow-y-auto max-h-52 min-h-12 fs-visible:outline-none focus-visible:ring-0 focus-visible:border-ring-0 border-0 bg-transparent dark:bg-transparent mb-2"
           value={value}
           placeholder="Say something..."
           onChange={onChange}
@@ -63,7 +66,7 @@ export default function ChatInput({
             type="single"
             value={promptStyle}
             onValueChange={(value) => {
-              if (value) setPromptStyle(value);
+              if (value) setPromptStyle(value as WritingStyleType);
             }}>
             <ToggleGroupItem
               className="rounded-md border"

@@ -11,8 +11,17 @@ type ChatMessageProps = {
   content: string | ReactNode;
   status: string;
   isLastMessage?: boolean;
+  aiThinking: boolean;
 };
-const ChatMessage = ({ chatId, role, content, status, isLastMessage }: ChatMessageProps) => {
+const ChatMessage = ({
+  chatId,
+  role,
+  content,
+  status,
+  isLastMessage,
+  aiThinking,
+}: ChatMessageProps) => {
+  const shouldAnimate = isLastMessage && aiThinking && role === "assistant";
   return (
     <motion.div
       className={cn(
@@ -27,16 +36,13 @@ const ChatMessage = ({ chatId, role, content, status, isLastMessage }: ChatMessa
             "text-zinc-800 dark:text-zinc-300 flex flex-col gap-2 relative",
             role === "user" && "bg-input p-4 rounded-3xl max-w-md"
           )}>
-          {status === "submitted" && role === "assistant" && (
+          {shouldAnimate && (
             <div className="flex flex-row items-center gap-2">
-              <p className="text-sm text-zinc-500">AI is thinking...</p>
+              <div className="h-4 w-4 animate-pulse bg-white rounded-full" />
             </div>
           )}
           <Markdown>{content}</Markdown>
         </div>
-      )}
-      {isLastMessage &&  (
-
       )}
     </motion.div>
   );
