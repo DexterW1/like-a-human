@@ -1,9 +1,11 @@
 import { cn } from "@/lib/utils";
 import { UIMessage } from "ai";
 import { motion } from "framer-motion";
-import { Bot, UserIcon } from "lucide-react";
+import { Bot, Copy, CopyCheck, UserIcon } from "lucide-react";
 import React, { ReactNode } from "react";
 import Markdown from "react-markdown";
+import { Button } from "../ui/button";
+import CopyCheckButton from "./CopycheckButton";
 
 type ChatMessageProps = {
   chatId: string;
@@ -22,14 +24,23 @@ const ChatMessage = ({
   aiThinking,
 }: ChatMessageProps) => {
   const shouldAnimate = isLastMessage && aiThinking && role === "assistant";
+  const copyToClipboard = () => {
+    if (typeof content === "string") {
+      navigator.clipboard.writeText(content);
+    }
+  };
   return (
     <motion.div
       className={cn(
-        "flex flex-row gap-4 px-4 w-full first-of-type:pt-16",
+        "flex flex-row items-center gap-4 px-4 w-full first-of-type:pt-16",
         role === "assistant" ? "justify-start" : "justify-end"
       )}
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}>
+      {role === "assistant" && (
+        <CopyCheckButton copyToClipboard={copyToClipboard} />
+      )}
+
       {content && typeof content === "string" && (
         <div
           className={cn(

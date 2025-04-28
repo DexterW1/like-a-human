@@ -55,7 +55,7 @@ export default function ChatInput({
         <Textarea
           className="w-full p-2 rounded-2xl resize-none overflow-y-auto max-h-52 min-h-12 fs-visible:outline-none focus-visible:ring-0 focus-visible:border-ring-0 border-0 bg-transparent dark:bg-transparent mb-2"
           value={value}
-          placeholder="Ask something..."
+          placeholder="Say something..."
           onChange={onChange}
           onKeyDown={handleKeyDown}
           rows={1}
