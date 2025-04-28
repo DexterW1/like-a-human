@@ -6,6 +6,8 @@ import ChatMessage from "./ChatMessage";
 import { motion } from "framer-motion";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import ChatPen from "../icons/ChatPen";
+import { Plus } from "lucide-react";
 
 export default function Chat() {
   const [aiThinking, setAiThinking] = useState(false);
@@ -27,7 +29,16 @@ export default function Chat() {
   };
   return (
     <div className="flex flex-col w-full h-full">
-      {!isEmpty && <div>project header</div>}
+      {!isEmpty && (
+        <div className="flex flex-row w-full p-2">
+          <Button
+            variant={"ghost"}
+            onClick={handleReset}
+            className="rounded-full">
+            <Plus className="h-6 w-6" />
+          </Button>
+        </div>
+      )}
 
       <div className="flex flex-col h-full w-full mx-auto md:px-0 px-4">
         {isEmpty ? (
