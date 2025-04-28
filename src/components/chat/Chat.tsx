@@ -26,7 +26,6 @@ export default function Chat() {
     },
   });
 
-  // Update input height when value changes or on resize
   useEffect(() => {
     const updateHeight = () => {
       if (inputRef.current) {
@@ -34,7 +33,6 @@ export default function Chat() {
       }
     };
 
-    // Run once when component mounts or when input changes
     updateHeight();
 
     // Add resize observer to watch for height changes
@@ -114,7 +112,7 @@ export default function Chat() {
             <>
               {/* Dynamic padding based on input height */}
               <div
-                className="flex flex-col overflow-y-auto w-full border h-full"
+                className="flex flex-col overflow-y-auto w-full h-full"
                 style={{ paddingBottom: `${inputHeight + 40}px` }}>
                 <div className="max-w-3xl mx-auto flex flex-col gap-9 w-full py-4">
                   {messages.map((message, index) => (
