@@ -5,11 +5,14 @@ import ChatInput from "./ChatInput";
 import ChatMessage from "./ChatMessage";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 
 export default function Chat() {
   const [aiThinking, setAiThinking] = useState(false);
+  const [inputHeight, setInputHeight] = useState(0);
+  const inputRef = useRef<HTMLDivElement>(null);
+
   const {
     messages,
     input,
@@ -22,23 +25,52 @@ export default function Chat() {
       setAiThinking(false);
     },
   });
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (inputRef.current) {
+        setInputHeight(inputRef.current.offsetHeight + 32);
+      }
+    };
+
+    updateHeight();
+
+    // Add resize observer to watch for height changes
+    const observer = new ResizeObserver(updateHeight);
+    if (inputRef.current) {
+      observer.observe(inputRef.current);
+    }
+
+    return () => {
+      if (inputRef.current) observer.unobserve(inputRef.current);
+    };
+  }, [input]);
+
   const isEmpty = messages.length === 0;
   const handleReset = () => {
     setMessages([]);
   };
+
+  const isInitialEmptyRender = useRef(true);
+
+  useEffect(() => {
+    isInitialEmptyRender.current = false;
+  }, []);
+
+  const shouldAnimate = isEmpty && isInitialEmptyRender.current;
+
   return (
-    <AnimatePresence>
-      <div className="flex flex-col w-full h-full">
-        {!isEmpty && (
-          <div className="flex flex-row w-full p-2">
-            <Button
-              variant={"ghost"}
-              onClick={handleReset}
-              className="rounded-full">
-              <Plus className="h-6 w-6" />
-            </Button>
-          </div>
-        )}
+    <div className="flex flex-col w-full h-full">
+      {!isEmpty && (
+        <div className="flex flex-row w-full p-2">
+          <Button
+            variant={"ghost"}
+            onClick={handleReset}
+            className="rounded-full">
+            <Plus className="h-6 w-6" />
+          </Button>
+        </div>
+      )}
 
         <div className="flex flex-col h-full w-full mx-auto md:px-0 px-4">
           {isEmpty ? (

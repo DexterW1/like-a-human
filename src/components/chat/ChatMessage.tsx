@@ -32,7 +32,7 @@ const ChatMessage = ({
   return (
     <motion.div
       className={cn(
-        "flex flex-row items-center gap-4 px-4 w-full first-of-type:pt-16",
+        "flex flex-row items-center gap-4 px-4 w-full first-of-type:pt-12",
         role === "assistant" ? "justify-start" : "justify-end"
       )}
       initial={{ y: 5, opacity: 0 }}
