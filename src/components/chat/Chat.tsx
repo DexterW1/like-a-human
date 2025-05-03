@@ -86,9 +86,7 @@ export default function Chat() {
                 {messages.map((message, index) => (
                   <ChatMessage
                     key={message.id}
-                    chatId={message.id}
-                    role={message.role}
-                    content={message.content}
+                    message={message}
                     status={status}
                     isLastMessage={index === messages.length - 1}
                     aiThinking={aiThinking}

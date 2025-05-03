@@ -8,57 +8,60 @@ import { Button } from "../ui/button";
 import CopyCheckButton from "./CopycheckButton";
 
 type ChatMessageProps = {
-  chatId: string;
-  role: string;
-  content: string | ReactNode;
+  message: UIMessage;
+  // chatId: string;
+  // role: string;
+  // content: string | ReactNode;
   status: string;
   isLastMessage?: boolean;
   aiThinking: boolean;
 };
 const ChatMessage = ({
-  chatId,
-  role,
-  content,
+  message,
   status,
   isLastMessage,
   aiThinking,
 }: ChatMessageProps) => {
-  const shouldAnimate = isLastMessage && aiThinking && role === "assistant";
+  console.log("message", message);
+  const shouldAnimate =
+    isLastMessage && aiThinking && message.role === "assistant";
   const copyToClipboard = () => {
-    if (typeof content === "string") {
-      navigator.clipboard.writeText(content);
+    if (typeof message.content === "string") {
+      navigator.clipboard.writeText(message.content);
     }
   };
   return (
     <motion.div
       className={cn(
         "flex flex-row items-center gap-4 px-4 w-full first-of-type:pt-12",
-        role === "assistant" ? "justify-start" : "justify-end"
+        message.role === "assistant" ? "justify-start" : "justify-end"
       )}
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}>
-      {role === "assistant" && (
+      {message.role === "assistant" && (
         <CopyCheckButton copyToClipboard={copyToClipboard} />
       )}
 
-      {content && typeof content === "string" && (
+      {message.content && typeof message.content === "string" && (
         <div
           className={cn(
             "text-zinc-800 dark:text-zinc-300 flex flex-col gap-2 relative",
-            role === "user" && "bg-input p-4 rounded-3xl sm:max-w-md max-w-full"
+            message.role === "user" &&
+              "bg-input p-4 rounded-3xl sm:max-w-md max-w-full"
           )}>
-          {shouldAnimate && (
+          {shouldAnimate ? (
             <div className="flex flex-row items-center gap-2">
               <div className="h-4 w-4 animate-pulse bg-white rounded-full" />
               <div className="h-4 w-4 animate-pulse bg-white rounded-full" />
               <div className="h-4 w-4 animate-pulse bg-white rounded-full" />
             </div>
+          ) : (
+            <Markdown>{message.content}</Markdown>
           )}
-          <Markdown>{content}</Markdown>
         </div>
       )}
     </motion.div>
   );
 };
 
-export default ChatMessage;
+export default React.memo(ChatMessage);
