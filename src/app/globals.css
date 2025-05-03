@@ -44,6 +44,8 @@
 }
 
 :root {
+  --scrollbar-thumb: oklch(0.7 0 0); /* light gray for light mode */
+  --scrollbar-track: transparent;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -79,6 +81,8 @@
 }
 
 .dark {
+  --scrollbar-thumb: oklch(0.3 0 0); /* darker gray for dark mode */
+  --scrollbar-track: transparent;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -152,7 +156,27 @@
     @apply bg-foreground/20 animate-pulse;
   }
 }
-textarea::-webkit-scrollbar {
+/* WebKit-based browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+/* textarea::-webkit-scrollbar {
   width: 8px;
 }
 
@@ -161,7 +185,7 @@ textarea::-webkit-scrollbar-track {
 }
 
 textarea::-webkit-scrollbar-thumb {
-  background-color: #555; /* dark gray */
+  background-color: #555; 
   border-radius: 4px;
   border: 2px solid transparent;
 }
@@ -169,7 +193,7 @@ textarea::-webkit-scrollbar-thumb {
 textarea {
   scrollbar-width: thin;
   scrollbar-color: #555 transparent;
-}
+} */
 .glow-bg-shadow {
   box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.1),
     inset -2px -2px 5px rgba(255, 255, 255, 0.1), 0px 0px 20px -5px white;
