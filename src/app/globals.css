@@ -175,9 +175,22 @@ textarea {
     inset -2px -2px 5px rgba(255, 255, 255, 0.1), 0px 0px 20px -5px white;
 }
 
-.full-screen {
+/* .full-screen {
   height: 100vh;
   width: 100vw;
   height: 100dvh;
   width: 100dvw;
+  max-height: 100vh;
+  max-width: 100vw;
+  max-height: 100dvh;
+  max-width: 100dvw;
+} */
+.full-screen {
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Modern browsers */
+  width: 100vw;
+  width: 100dvw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
