@@ -45,10 +45,12 @@ const ChatMessage = ({
         <div
           className={cn(
             "text-zinc-800 dark:text-zinc-300 flex flex-col gap-2 relative",
-            role === "user" && "bg-input p-4 rounded-3xl max-w-md"
+            role === "user" && "bg-input p-4 rounded-3xl sm:max-w-md max-w-full"
           )}>
           {shouldAnimate && (
             <div className="flex flex-row items-center gap-2">
+              <div className="h-4 w-4 animate-pulse bg-white rounded-full" />
+              <div className="h-4 w-4 animate-pulse bg-white rounded-full" />
               <div className="h-4 w-4 animate-pulse bg-white rounded-full" />
             </div>
           )}

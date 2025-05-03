@@ -10,9 +10,8 @@ import { Plus } from "lucide-react";
 
 export default function Chat() {
   const [aiThinking, setAiThinking] = useState(false);
-  const [inputHeight, setInputHeight] = useState(0);
-  const inputRef = useRef<HTMLDivElement>(null);
-
+  const scrollAnchorRef = useRef<HTMLDivElement>(null);
+  const prevMessageCountRef = useRef(0);
   const {
     messages,
     input,
@@ -31,6 +30,12 @@ export default function Chat() {
     setMessages([]);
   };
 
+  useEffect(() => {
+    if (messages.length > prevMessageCountRef.current) {
+      scrollAnchorRef.current?.scrollIntoView({ behavior: "smooth" });
+      prevMessageCountRef.current = messages.length;
+    }
+  }, [messages.length]);
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
       {!isEmpty && (
@@ -90,6 +95,7 @@ export default function Chat() {
                   />
                 ))}
               </div>
+              <div ref={scrollAnchorRef} />
             </div>
             <div className="mb-4 max-w-3xl mx-auto w-full ">
               <ChatInput
