@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { WritingStyleType, WRITING_STYLE_ENUM } from "@/types/chat.types";
 import {
   personalizedPrompt,
-  professionalPrompt,
+  generalPrompt,
   workPrompt,
 } from "./prompts/prompts";
 export function cn(...inputs: ClassValue[]) {
@@ -16,8 +16,8 @@ export function getSystemPrompt(promptStyle: WritingStyleType) {
       return personalizedPrompt;
     case WRITING_STYLE_ENUM.WORK:
       return workPrompt;
-    case WRITING_STYLE_ENUM.PROFESSIONAL:
-      return professionalPrompt;
+    case WRITING_STYLE_ENUM.GENERAL:
+      return generalPrompt;
     default:
       return "You are a friendly and helpful assistant.";
   }

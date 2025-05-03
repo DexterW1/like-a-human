@@ -16,7 +16,7 @@ export const workPrompt = `
   **(Provide *only* the polished text as your response. Do not add any explanations or introductory remarks like 'Here is the revised version:'.)**
 `;
 
-export const professionalPrompt = `
+export const generalPrompt = `
   **Act as an expert editor specializing in formalizing communication.** Your task is to take the provided text and elevate it to the highest level of professional and formal discourse.
 
   **Key Requirements:**

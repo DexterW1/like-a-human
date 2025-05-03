@@ -7,8 +7,12 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { ChatRequestOptions } from "ai";
 import { useState } from "react";
 import { WRITING_STYLE_ENUM, WritingStyleType } from "@/types/chat.types";
-import { Tooltip, TooltipTrigger } from "../ui/tooltip";
-import { TooltipContent } from "@radix-ui/react-tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipProvider,
+  TooltipContent,
+} from "../ui/tooltip";
 
 type ChatInputProps = {
   onSubmit: (
@@ -68,24 +72,53 @@ export default function ChatInput({
             onValueChange={(value) => {
               if (value) setPromptStyle(value as WritingStyleType);
             }}>
-            <ToggleGroupItem
-              className="rounded-md border"
-              value={WRITING_STYLE_ENUM.PERSONALIZED}
-              aria-label="Toggle PERSONALIZED">
-              <UserRound size={16} />
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              className="rounded-md border"
-              value={WRITING_STYLE_ENUM.WORK}
-              aria-label="Toggle WORK">
-              <Briefcase size={16} />
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              className="rounded-md border"
-              value={WRITING_STYLE_ENUM.PROFESSIONAL}
-              aria-label="Toggle PROFESSIONAL">
-              <Feather size={16} />
-            </ToggleGroupItem>
+            <TooltipProvider delayDuration={700}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <ToggleGroupItem
+                      className="rounded-md border"
+                      value={WRITING_STYLE_ENUM.PERSONALIZED}
+                      aria-label="Toggle PERSONALIZED">
+                      <UserRound size={16} />
+                    </ToggleGroupItem>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent sideOffset={10}>
+                  Personalized to sound just like you
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <ToggleGroupItem
+                      className="rounded-md border"
+                      value={WRITING_STYLE_ENUM.WORK}
+                      aria-label="Toggle WORK">
+                      <Briefcase size={16} />
+                    </ToggleGroupItem>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent sideOffset={10}>
+                  Personalized for work communication
+                </TooltipContent>
+              </Tooltip>
+              {/* <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <ToggleGroupItem
+                      className="rounded-md border"
+                      value={WRITING_STYLE_ENUM.GENERAL}
+                      aria-label="Toggle PROFESSIONAL">
+                      <Feather size={16} />
+                    </ToggleGroupItem>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent sideOffset={10}>
+                  it will write in a general style
+                </TooltipContent>
+              </Tooltip> */}
+            </TooltipProvider>
           </ToggleGroup>
 
           <Button type="submit" disabled={!value || status !== "ready"}>
