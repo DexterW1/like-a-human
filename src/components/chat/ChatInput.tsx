@@ -43,7 +43,7 @@ export default function ChatInput({
   }
 
   return (
-    <div className="flex flex-col dark:bg-input/30 rounded-3xl py-3 px-4 border">
+    <div className="flex flex-col dark:bg-input/30 rounded-3xl py-3 px-4 border ">
       <form
         onSubmit={(event) => {
           onSubmit(event, {

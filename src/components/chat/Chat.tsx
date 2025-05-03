@@ -44,28 +44,21 @@ export default function Chat() {
           {isEmpty ? (
             <div className="flex flex-col justify-center -mt-32 flex-1 gap-8 max-w-3xl mx-auto">
               <div className="space-y-4">
-                <motion.p
-                  className="md:text-8xl text-5xl font-bold italic text-center"
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}>
+                <p className="md:text-8xl text-5xl font-bold italic text-center">
                   Like a human
-                </motion.p>
-                <motion.p
-                  className="text-center text-zinc-500 text-sm md:text-lg"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.3 }}>
+                </p>
+                <p className="text-center text-zinc-500 text-sm md:text-lg">
                   Paste your text and let AI help you re-write it—so it sounds
                   just like a human wrote it. Perfect for making your messages,
                   emails, or posts more natural and authentic.
-                </motion.p>
+                </p>
               </div>
               <motion.div
                 layoutId="chat-input"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 0.5 }}>
+                transition={{ duration: 0.5 }}
+                className=" rounded-3xl glow-bg-shadow">
                 <ChatInput
                   onChange={handleInputChange}
                   onSubmit={handleSubmit}
@@ -93,9 +86,7 @@ export default function Chat() {
                   ))}
                 </div>
               </div>
-              <motion.div
-                layoutId="chat-input"
-                className="mb-4 max-w-3xl mx-auto w-full">
+              <div className="mb-4 max-w-3xl mx-auto w-full ">
                 <ChatInput
                   onChange={handleInputChange}
                   onSubmit={handleSubmit}
@@ -103,7 +94,7 @@ export default function Chat() {
                   status={status}
                   setAiThinking={setAiThinking}
                 />
-              </motion.div>
+              </div>
             </>
           )}
         </div>
